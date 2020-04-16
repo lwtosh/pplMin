@@ -1,0 +1,219 @@
+<view wx-if='{{isActive}}'>
+  <view class='page3'>
+    <view class='header'>
+      <view class='left'>
+        <image wx:if='{{item.sender.avatarUrl}}' src='{{dataList2.compereUser.avatar }}'></image>
+        <image wx:else='{{item.sender.avatarUrl}}' src='../../asset/ara.png'></image>
+      </view>
+      <view class='center'> 主持人</view>
+      <!-- 已结束 -->
+      <view class='right' wx-if='{{dataList2.status ===7}}'>
+        <image src='{{imgUrl[1]}}'></image> 已结束
+        <i-count-down class="times" target="{{dataList2.endTime}}" countdown-class="big">
+        </i-count-down>
+      </view>
+      <!-- 距结束 -->
+      <view class='right' wx-if='{{dataList2.status ===9}}'>
+        <image class='jingpai' src='../../asset/jingpai.png'></image>
+        <view>竞拍中</view>
+      </view>
+      <!-- 据开始 -->
+      <view class='right' wx-if='{{dataList2.status ===8}}'>
+        <image src='{{imgUrl[1]}}'></image> 距开始
+        <i-count-down class="times" target="{{dataList2.startTime}}" countdown-class="big">
+        </i-count-down>
+      </view>
+      <!-- <view class='right' wx-if='{{isTime }}'>
+        <image src='{{imgUrl[1]}}'></image> 距结束
+        <view>{{messageTime}}</view> 
+      </view> -->
+    </view>
+    <view class='page2'>
+      <view class='hao'>场次编号：{{dataList.roundId}}</view>
+      <!-- 未开始 -->
+      <view wx-if='{{dataList2.status ===8}}'>
+        <view class='box1'>
+          <view class='text-1'>起拍价</view>
+          <view class='text-2'>￥ {{dataList2.startPrice }}</view>
+        </view>
+        <view class='box2'>保证金:￥{{dataList2.nextBlockMoney ===null ? 0 :dataList2.nextBlockMoney }}</view>
+      </view>
+
+      <!-- 竞拍中 -->
+      <view class='box' wx:if='{{dataList2.status ===9}}'>
+        <block wx-if='{{array1[array1.length-1] && hide == false}}'>
+          <view class='box1-1'>
+            <view>
+              <image wx:if='{{array1[array1.length-1].data.bidUser.avatarUrl}}' src='{{array1[array1.length-1].data.bidUser.avatarUrl}}'></image>
+              <image wx:else src='../../asset/ara.png'></image>
+            </view>
+            <view class='text-1'>{{array1[array1.length-1].data.bidUser.nickname }}</view>
+            <view class='text-2'>当前价:￥{{array1[array1.length-1].data.bidPrice ===null ? 0 :array1[array1.length-1].data.bidPrice }}</view>
+          </view>
+          <view class='tubiao'></view>
+          <view class='box2-2'>
+            <view class='text-1'>下次出价</view>
+            <view class='text-2'>￥ {{array1[array1.length-1].data.nextBidPrice ===null ? 0 :array1[array1.length-1].data.nextBidPrice }}</view>
+            <view class='text-4'>保证金 ：￥ {{array1[array1.length-1].data.nextBlockMoney ===null ? 0 :array1[array1.length-1].data.nextBlockMoney }}</view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class='box1-1'>
+            <view>
+              <image wx:if='{{dataList2.lastUserInfo.avatar}}' src='{{dataList2.lastUserInfo.avatar}}'></image>
+              <image wx:else src='../../asset/ara.png'></image>
+            </view>
+            <view class='text-1' wx:if='{{dataList2.lastUserInfo.nickName}}'>{{dataList2.lastUserInfo.nickName }}</view>
+            <view class='text-1' wx:else>暂无人出价</view>
+            <view class='text-2' wx:if='{{dataList2.lastBlockMoney}}'>当前价:￥{{dataList2.lastBidPrice ===null ? 0 :dataList2.lastBidPrice }}</view>
+            <view class='text-2' wx:else>当前价:￥{{dataList2.startPrice ===null ? 0 :dataList2.startPrice }}</view>
+          </view>
+          <view class='tubiao'></view>
+          <view class='box2-2'>
+            <view class='text-1'>下次出价</view>
+            <view class='text-2'>￥ {{dataList2.nextBidPrice ===null ? 0 :dataList2.nextBidPrice }}</view>
+            <view class='text-4'>保证金 ：￥ {{dataList2.nextBlockMoney ===null ? 0 :dataList2.nextBlockMoney }}</view>
+          </view>
+        </block>
+      </view>
+      <!-- 竞购成功 -->
+      <view wx-if='{{dataList2.status ===7 && dataList2.endStatus !== 2 }}'>
+        <view class='box1'>
+          <view class='text-1'>成交价</view>
+          <view class='text-2'>￥ {{dataList2.lastBidPrice ===null ? 0 :dataList2.lastBidPrice }}</view>
+        </view>
+        <view class='box2'>最高出价:￥{{dataList2.lastBidPrice ===null ? 0 :dataList2.lastBidPrice }}</view>
+      </view>
+
+      <!-- 竞购失败 -->
+      <view wx-if='{{dataList2.status ===7 && dataList2.endStatus === 2 }}'>
+        <view class='box1'>
+          <view class='text-1'>当前价</view>
+          <view class='text-2'>￥ {{dataList2.startPrice ===null ? 0 :dataList2.startPrice}}</view>
+        </view>
+        <view class='box2'>未达到保留价流拍</view>
+      </view>
+    </view>
+  </view>
+  <!-- 暴击 -->
+  <view class="baoji">
+    <scroll-view scroll-y="true" scroll-with-animation scroll-into-view="{{toView}}">
+      <view class="baoji1" wx-if="{{isBaoji}}">
+        <image class="arae" wx:if='{{array1[array1.length-1].data.bidUser.avatarUrl}}' src="{{array1[array1.length-1].data.bidUser.avatarUrl}}"></image>
+        <image class="arae" wx:else src='../../asset/ara.png'></image>
+        <view class="baoji-text">
+          <view class="baoji-name">{{array1[array1.length-1].data.bidUser.nickname}}</view>
+          <view class="bid">暴击x2 成功出价</view>
+        </view>
+        <image class="baoji-img" src="../../asset/x2baoji.png"></image>
+        <image class="baoji-img2" src="../../asset/2x.png"></image>
+      </view>
+      <view class="baoji2" wx-if="{{isBaoji2}}">
+        <image class="arae" wx:if='{{array1[array1.length-1].data.bidUser.avatarUrl}}' src="{{array1[array1.length-1].data.bidUser.avatarUrl}}"></image>
+        <image class="arae" wx:else src='../../asset/ara.png'></image>
+        <view class="baoji-text">
+          <view class="baoji-name">{{array1[array1.length-1].data.bidUser.nickname}}</view>
+          <view class="bid">暴击x4 成功出价</view>
+        </view>
+        <image class="baoji-img" src="../../asset/x4baoji.png"></image>
+        <image class="baoji-img2" src="../../asset/4x.png"></image>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class='page'>
+    <!-- 他人聊天 -->
+    <scroll-view scroll-y="true" scroll-with-animation scroll-top="{{scrollTop}}" style="height: {{height}}" scroll-into-view="{{toView}}" class='history'>
+      <view class='box3'>
+
+        <view class='list1'>
+          <view class="fl">
+            <image wx:if='{{avatar}}' src='{{avatar}}'></image>
+            <image wx:else src='../../asset/ara1.png'></image>
+            <view class='content'>
+              <view class='name'>主持人</view>
+              <view class='desc top'>
+                <text>{{dataList.roundInLangs}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class='list1' wx:for='{{listArray}}' wx:for-index="index" wx:if='{{!(array.type=="AUCTION_PRICE_SUCCESS")}}'>
+          <view class="fl">
+            <image wx:if='{{item.bidUser.avatar}}' src='{{item.bidUser.avatar}}'></image>
+            <image wx:else src='../../asset/ara.png'></image>
+            <view class='content'>
+              <view class='name'>{{item.bidUser.nickName}}</view>
+              <view class='desc bg'>
+                <text wx:if='{{item.crit == 2}}'>暴击X2</text>
+                <text wx:if='{{item.crit == 4}}'>暴击X4</text> 成功出价{{item.bidPrice}}元，预计获得奖励{{item.bidAward }}元和可拆红包{{item.bidRedpack }}元 </view>
+            </view>
+          </view>
+        </view>
+        <view class='list1' wx:for='{{array}}' wx:for-index="index" id='msg-{{index}}'>
+          <view class="fl"  wx-if='{{!item.status}}'>
+            <image wx:if='{{item.sender.avatarUrl}}' src='{{item.sender.avatarUrl}}'></image>
+            <image wx:elif='{{item.data.bidUser.avatarUrl}}' src='{{item.data.bidUser.avatarUrl}}'></image>
+            <image wx:else src='../../asset/ara.png'></image>
+            <view class='content'>
+              <view wx:if='{{item.type === "AUCTION_CHAT"}}' class='name'>{{item.sender.nickName}}</view>
+              <view wx:if='{{item.type === "AUCTION_PRICE_SUCCESS"}}' class='name'>{{item.data.bidUser.nickname}}</view>
+              <view wx:if='{{item.type === "AUCTION_CHAT"}}' class='desc'>{{item.data.content}}</view>
+              <view wx:if='{{item.type === "AUCTION_PRICE_SUCCESS"}}' class='desc bg'>
+                <text wx:if='{{item.data.crit == 2}}'>暴击X2</text>
+                <text wx:if='{{item.data.crit == 4}}'>暴击X4</text> 成功出价{{item.data.bidPrice}}元，预计获得奖励{{item.data.award}}元和可拆红包{{item.data.redpack}}元
+              </view>
+            </view>
+          </view>
+          <!-- 竞购结果成功 -->
+          <view class='jingguo' wx:if='{{item.type === "AUCTION_PRICE_SUCCESS1" && item.status == true}}'>
+            <image src='../../asset/seult.png '></image>
+            <view class='contt '>
+              <view class='tl ' wx:if='{{(dataList2.lastUserInfo.id == getbeUid) || item.uid == getbeUid}}'>
+                <text class='red '>恭喜您竞购成功!</text>
+              </view>
+              <view class='tl ' wx:else>恭喜"
+              <text class='red' wx-if='{{item.nickname && item.uid !== getbeUid }}'>{{item.nickname}}</text>
+              <text class='red' wx:else>{{dataList2.lastUserInfo.nickName}}</text>"竞购成功</view>
+              <view class='lf'>
+                <image src='{{dataList2.goods.goodsCoverImg}}'></image>
+              </view>
+              <view class='rg'>
+                <view class='rg-hd'>{{dataList2.goods.goodsName}}</view>
+                <view class='rg-hd'>成交价:
+                  <text class='red ' wx:if='{{item.bidPrice}}'>￥{{item.bidPrice == null ? 0 : item.bidPrice}}</text>
+                  <text class='red ' wx:else>￥{{dataList2.lastBidPrice ===null ? 0 :dataList2.lastBidPrice}}</text>
+                </view>
+              </view>
+            </view>
+            <i-load-more style='margin-bottom:10rpx' tip="本场已结束" loading="{{ false }}" />
+            <view style='text-align:center;color:#7D848C;font-size:24rpx;margin-bottom:20rpx'>以上为{{item.roundId}}场次出价记录</view>
+          </view>
+          <!-- 竞购结果失败 -->
+          <view class='jingguo' wx:if='{{item.type === "AUCTION_PRICE_SUCCESS2" && item.status2 ===  true }}'>
+            <image src='../../asset/err.png '></image>
+            <view class='contt'>
+              <view class='tl'>竞购失败</view>
+              <view class='lf'>
+                <image src='{{dataList2.goods.goodsCoverImg}}'></image>
+              </view>
+              <view class='rg'>
+                <view class='rg-hd'>{{dataList2.goods.goodsName}}</view>
+                <view class='rg-hd'>成交价:
+                  <text class='red ' wx:if='{{nickname}}'>￥{{item.bidPrice ===null ? 0 :item.bidPrice }}</text>
+                  <text class='red ' wx:else>￥{{dataList2.lastBidPrice ===null ? 0 :dataList2.lastBidPrice  }}</text>
+                </view>
+              </view>
+            </view>
+            <i-load-more style='margin-bottom:10rpx' tip="本场已结束" loading="{{ false }}" />
+            <view style='text-align:center;color:#7D848C;font-size:24rpx;margin-bottom:20rpx'>以上为{{item.roundId}}场次出价记录</view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+
+  </view>
+  <view class='foot'>
+    <!-- <button open-type="launchApp" app-parameter="{{wechat}}" class='btn' binderror="launchAppError">请下载APP去参与出价</button> -->
+  </view>
+</view>

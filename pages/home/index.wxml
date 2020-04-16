@@ -1,0 +1,54 @@
+<view class='cont'></view>
+<view class='wrap'>
+  <view class='title'>
+    <image src='../../asset/text.png'></image>
+  </view>
+  <!-- 可拆红包 -->
+  <view class='box1'>
+    <view wx-if='{{status === 1 && ishide}}'>
+      <image class='author' src='{{dataList.beOpenUserInfo.avatar}}'></image>
+      <view class='title2'>{{dataList.beOpenUserInfo.nickName}}</view>
+      <view class='num2'>
+        <text>￥</text>{{dataList.totalRedpack}}</view>
+      <view class='title2'>红包总额度</view>
+      <view class='money'>已拆￥{{dataList.openedRedpack }}</view>
+      <view class='pro'>
+        <progress percent="{{(dataList.openedRedpack/dataList.totalRedpack)* 100}}" border-radius='20px' backgroundColor='#fff' color='#FFF82B' active />
+      </view>
+      <view class='btn' wx-if='{{!(dataList.beOpenUserInfo.id ==getbeUid)}}'  bindtap='btn1'>瓜分现金红包</view>
+    </view>
+    <!-- 已拆红包 -->
+    <view wx-if='{{status === 2  || isShow}}'>
+      <image class='author' src='{{dataList.beOpenUserInfo.avatar}}'></image>
+      <view class='title2'>{{dataList.beOpenUserInfo.nickName}}</view>
+      <view class='num2'>
+        <text>￥</text>{{ dataList.status === 1? dataList1.openAmount: dataList.myOpenGetRedpack}}</view>
+      <view class='title2'>瓜分到现金</view>
+      <button open-type="launchApp" app-parameter="{{wechat}}" bindtap='chat' class='btn' style='margin-top:100rpx;' binderror="launchAppError">已存入账户,进入APP提现</button>
+    </view>
+    <!-- 拆完红包 -->
+    <view wx-if='{{status === 3}}'>
+      <image class='author' src='{{dataList.beOpenUserInfo.avatar}}'></image>
+      <view class='title2'>{{dataList.beOpenUserInfo.nickName}}</view>
+      <view class='num2'>
+        <text>￥</text>{{dataList.totalRedpack}}</view>
+      <view class='title2'>红包总额度</view>
+      <view class='pro'>
+        <progress percent="{{(dataList.openedRedpack/dataList.totalRedpack)* 100}}" border-radius='20px' backgroundColor='#fff' color='#FFF82B' active />
+      </view>
+      <view class='money' style='margin-top:10rpx;'>红包已拆完</view>
+    </view>
+    <!-- 红包过期 -->
+    <view wx-if='{{status === 4}}'>
+      <view class='title2' style='line-height:700rpx;'>您来晚了,红包已过期</view>
+    </view>
+
+  </view>
+  <!-- <view class='box2' wx-if='{{isHide}}'>
+    <image src='../../asset/hongbao.png'></image>
+    <view class='flex'>
+      <view class='left2' catchtap='btn4'>不差钱，离开</view>
+      <view class='right2' bindtap='btn3'>继续瓜分红包</view>
+    </view>
+  </view> -->
+</view>

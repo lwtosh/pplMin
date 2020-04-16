@@ -1,0 +1,476 @@
+<view class='order'>
+  <view class="swiper-tab">
+    <view class="swiper-tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="clickTab">全部</view>
+    <view class="swiper-tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="clickTab">待付款</view>
+    <view class="swiper-tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="clickTab">待收货</view>
+    <view class="swiper-tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="clickTab">已完成</view>
+    <view class="swiper-tab-item {{currentTab==4?'active':''}}" data-current="4" bindtap="clickTab">违约</view>
+  </view>
+  <swiper current="{{currentTab}}" scroll-with-animation='true' duration="300" bindchange="swiperTab" style="height:{{winHeight}}rpx">
+    <swiper-item>
+      <view class='null' wx-if="{{dataList == ''}}">
+        <image src='../../asset/null.png'></image>
+        <view class='null-desc'>还没有订单哦~</view>
+      </view>
+      <scroll-view scroll-y="true" wx-else class="scoll-h" bindscrolltolower="loadMore" upper-threshold ="-100"bindscrolltoupper="refesh">
+        <view class='order-ul' wx:for='{{dataList}}' wx:key="item.id">
+          <view class='order-li'>
+            <view class='orderNum'>
+              <view class='orderNum-left'>
+                <text class='icon-pai' wx-if="{{item.orderType == 1}}">兑换</text>
+                <text class='icon-pai bg1' wx-if="{{item.orderType == 0}}">竞拍</text>
+                <text class='icon-pai bg4' wx-if="{{item.orderType == 2}}">中奖</text>
+                <text class='icon-pai bg2' wx-if="{{item.orderType == 3}}">商城</text>
+                <text class='icon-pai bg3' wx-if="{{item.orderType == 4}}">直购</text> 订单号 {{item.orderNo}}</view>
+              <view class='orderNum-right' wx-if="{{item.status == 0}}">待付款</view>
+              <view class='orderNum-right' wx-if="{{item.pickStatus == 2 }}">待收货</view>
+              <view class='orderNum-right' wx-if="{{item.status == 1}}">已支付</view>
+              <view class='orderNum-right' wx-if="{{item.pickStatus == 1}}">待收货</view>
+              <view class='orderNum-right' wx-if="{{item.entrustStatus == 1 && item.logisticsName == null}}">寄卖中</view>
+              <view class='orderNum-right' wx-if="{{item.status == 3}}">已托管</view>
+              <view class='orderNum-right' wx-if="{{item.status == 5}}">已完成</view>
+              <view class='orderNum-right' wx-if="{{item.status == -1}}">已取消</view>
+              <view class='orderNum-right' wx-if="{{item.status == 4}}">违约</view>
+            </view>
+            <view class='seletion'>
+              <view class='seletion-left'>
+                <image class='seletion-img' src='{{item.goods.goodsCoverImg}}'></image>
+              </view>
+              <view class='left-bd'>
+                <view class='title'>{{item.goods.goodsName}}</view>
+                <view class='num' wx-if="{{item.orderType == 1}}">
+                  <text class='tet'>已消耗:</text> {{item.orderLePoint}}
+                  <text class='mon2'>乐点</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 2}}">
+                  第{{item.treasurePeriodId}}期
+                  <text class='mon2'> 中奖奖品</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 0  && item.status == 0}}">
+                  <view>
+                    <text class='tet1'>成交价：</text>
+                    <text class='tet1'>￥</text>
+                    <text class='tet1'>{{item.totalPrice}}  </text>
+                    <text class='tet1'>  已付押金：</text>
+                    <text class='tet1'>￥</text>
+                    <text class='tet1'>{{item.blockMoney}}</text>
+                  </view>
+                  <!-- <view>
+                    <text class='tet'>待支付：</text>
+                    <text class='mon2'>￥</text> {{item.orderPrice}}</view> -->
+                </view>
+                <view class='num' wx-if="{{item.orderType == 0 && item.status == 4 }}">
+                  <view>
+                    <text class='tet1'>成交价：</text>
+                    <text class='tet1'>￥</text>
+                    <text class='tet1'>{{item.totalPrice}}</text>
+                  </view>
+                  <view>
+                    <text class='tet'>违约金：</text>
+                    <text class='mon2'>￥</text> {{item.blockMoney}}</view>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 3 && item.orderPrice > 0}}">
+                  <text class='mon2'>￥</text>{{item.orderPrice}}
+                  <text class='mon'>+</text>{{item.orderEquity}}
+                  <text class='mon'> 权益值</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 3 && item.orderPrice <= 0 }}">
+                  {{item.orderEquity}}
+                  <text class='mon'> 权益值</text>
+                </view>
+                 <!-- && item.treasurePeriodId  == null || item.orderLePoint == 0 || item.orderEquity == 0  -->
+                <view class='num' wx-if="{{item.status !== 4 && (item.status == -1 || item.status == 2 || item.status == 3 || item.status == 5) && (item.payPrice > 0 || item.orderPrice> 0 ) && item.treasurePeriodId  == null && item.orderLePoint == 0 && item.orderEquity == 0}}">
+                  <text class='tet'>已支付：</text>
+                  <text class='mon2'>￥</text>{{item.payPrice || item.orderPrice }}
+                </view>
+                <view class='num' wx-if="{{item.surplusPayTime !== 0  && item.status == 0}}">
+                  <text class='tet'>待支付：</text>
+                  <text class='mon2'>￥</text>{{item.payPrice || item.orderPrice}}
+                </view>
+                <view class='one'>x1</view>
+              </view>
+            </view>
+            <view class='seletion1'>
+              <view class='box' wx-if="{{item.logisticsCode == null}}">
+                <view class='time' wx-if="{{item.status == 3 && item.turnStatus !== 0}}">托管时间 ：{{item.payTime}}</view>
+                <view class='time' wx-if="{{item.status === 6 && item.operTime !== null}}">寄卖时间 ：{{item.operTime}}</view>
+                <view class='time' wx-if="{{item.surplusPayTime !== 0  && item.status == 0}}">付款剩余时间 ：{{surplusPayTime}}</view>
+                <view class='time' wx-if="{{item.status == -1}}">取消时间 ： {{item.operTime}}</view>
+                <view class='time' wx-if="{{item.status == 4}}">违约时间 ： {{item.operTime}}</view>
+                <view class='time' wx-if="{{item.status == 1 || item.status == 2  && item.payTime !== null }}">提交时间 ：{{item.payTime}}</view>
+                <view class='check'>
+                  <view class='confirm' data-status="{{item.status}}" bindtap='hanleCheck' wx-if="{{item.status == 3 || item.status == 6}}">查看>></view>
+                  <view class='confirm' data-item="{{item}}" bindtap='hanleEitd' wx-if="{{ item.status !== 6 && item.status !== -1 && (item.entrustStatus == 6 || item.orderType == 2 ||item.orderType == 3 )}}">寄卖</view>
+                  <view class='confirm' data-item="{{item}}" bindtap='hanleGoods' wx-if="{{item.status !== 6 && item.status !== -1 && (item.entrustStatus == 6|| item.orderType == 2 ||item.orderType == 3 )}}">提货</view>
+                  <view class='confirm' bindtap='hanlePay' data-item="{{item}}" data-id="{{item.auctionLineId}}" wx-if="{{item.status == 0}}">付款</view>
+                </view>
+              </view>
+              <view wx-if="{{item.logisticsCode !== null}}" class='logistics'>
+                <view class='fl'>
+                  <view class='logi-title'>物流信息</view>
+                  <view class='logi-desc'>
+                    <view class='logi-name'>物流名称: {{item.logisticsName}}</view>
+                    <view class='logi-id'>物流单号: {{item.logisticsNo}}</view>
+                    <view class='logi-time'>发货时间: {{item.dispatchTime}}</view>
+                  </view>
+                </view>
+                <view class='footer'>
+                  <text class='book'  bindtap='haneld' data-item="{{item}}">查看物流</text>
+                  <text class='confirm' wx-if="{{item.status !== 5}}" bindtap='hanleConfirm' data-id="{{item.id}}">确认收货</text>
+                </view>
+              </view>
+            </view>
+
+          </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+    <!-- 待付款 -->
+    <swiper-item>
+      <view class='null' wx-if="{{dataList1 == ''}}">
+        <image src='../../asset/null.png'></image>
+        <view class='null-desc'>还没有订单哦~</view>
+      </view>
+      <scroll-view scroll-y="true" wx-else class="scoll-h">
+        <view class='order-ul' wx:for='{{dataList1}}' wx:key="item.id">
+          <view class='order-li'>
+            <view class='orderNum'>
+              <view class='orderNum-left'>
+                <text class='icon-pai' wx-if="{{item.orderType == 1}}">兑换</text>
+                <text class='icon-pai bg1' wx-if="{{item.orderType == 0}}">竞拍</text>
+                <text class='icon-pai bg4' wx-if="{{item.orderType == 2}}">中奖</text>
+                <text class='icon-pai bg2' wx-if="{{item.orderType == 3}}">商城</text>
+                <text class='icon-pai bg3' wx-if="{{item.orderType == 4}}">直购</text> 订单号 {{item.orderNo}}</view>
+              <view class='orderNum-right' wx-if="{{item.status == 0}}">待付款</view>
+            </view>
+            <view class='seletion'>
+              <view class='seletion-left'>
+                <image class='seletion-img' src='{{item.goods.goodsCoverImg}}'></image>
+              </view>
+              <view class='left-bd'>
+                <view class='title'>{{item.goods.goodsName}}</view>
+                <view class='num' wx-if="{{item.orderType == 1}}">
+                  <text class='tet'>已消耗:</text> {{item.orderLePoint}}
+                  <text class='mon2'>乐点</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 0}}">
+                  <view>
+                    <text class='tet1'>成交价：</text>
+                    <text class='tet1'>￥</text>
+                    <text class='tet1'>{{item.totalPrice}}  </text>
+                    <text class='tet1'>  已付押金：</text>
+                    <text class='tet1'>￥</text>
+                    <text class='tet1'>{{item.blockMoney}}</text>
+                  </view>
+                  <view>
+                    <text class='tet'>待支付：</text>
+                    <text class='mon2'>￥</text> {{item.orderPrice}}</view>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 3 && item.orderPrice > 0}}">
+                  <text class='mon2'>￥</text>{{item.orderPrice}}
+                  <text class='mon'>+</text>{{item.orderEquity}}
+                  <text class='mon'> 权益值</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 3 && item.orderPrice <= 0 }}">
+                  {{item.orderEquity}}
+                  <text class='mon'> 权益值</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 4}}">
+                  <text class='tet'>待付款:</text>
+                  <text class='mon2'>￥</text>{{item.orderPrice}}
+                </view>
+                <view class='one'>x{{item.number}}</view>
+              </view>
+            </view>
+            <view class='seletion1'>
+              <view class='time'>付款剩余时间 ：{{surplusPayTime}}</view>
+              <view class='check'>
+                <view class='btn' bindtap='hanlePay' data-item="{{item}}" data-id="{{item.id}}" wx-if="{{item.status == 0}}">付款</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+    <!-- 待收货 -->
+    <swiper-item>
+      <view class='null' wx-if="{{dataList2 == ''}}">
+        <image src='../../asset/null.png'></image>
+        <view class='null-desc'>还没有订单哦~</view>
+      </view>
+      <scroll-view scroll-y="true" wx-else class="scoll-h">
+        <view class='order-ul' wx:for='{{dataList2}}' wx:key="id">
+          <view class='order-li'>
+            <view class='orderNum'>
+              <view class='orderNum-left'>
+                <text class='icon-pai' wx-if="{{item.orderType == 1}}">兑换</text>
+                <text class='icon-pai bg1' wx-if="{{item.orderType == 0}}">竞拍</text>
+                <text class='icon-pai bg4' wx-if="{{item.orderType == 2}}">中奖</text>
+                <text class='icon-pai bg2' wx-if="{{item.orderType == 3}}">商城</text>
+                <text class='icon-pai bg3' wx-if="{{item.orderType == 4}}">直购</text> 订单号 {{item.orderNo}}</view>
+              <view class='orderNum-right' wx-if="{{item.pickStatus == 1}}">待收货</view>
+              <view class='orderNum-right' wx-if="{{item.pickStatus == 2}}">待收货</view>
+            </view>
+            <view class='seletion'>
+              <view class='seletion-left'>
+                <image class='seletion-img' src='{{item.goods.goodsCoverImg}}'></image>
+              </view>
+              <view class='left-bd'>
+                <view class='title'>{{item.goods.goodsName}}</view>
+                <view class='num' wx-if="{{item.orderType == 1}}">
+                  <text class='tet'>已消耗:</text> {{item.orderLePoint}}
+                  <text class='mon2'>乐点</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 3 && item.orderPrice > 0}}">
+                  <text class='mon2'>￥</text>{{item.orderPrice}}
+                  <text class='mon'>+</text>{{item.orderEquity}}
+                  <text class='mon'> 权益值</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 3 && item.orderPrice <= 0 }}">
+                  {{item.orderEquity}}
+                  <text class='mon'> 权益值</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 4 ||item.orderType == 0 }}">
+                  <text class='tet'>已支付:</text>
+                  <text class='mon2'>￥</text>{{item.orderPrice}}
+                </view>
+                <view class='one'>x{{item.number}}</view>
+              </view>
+            </view>
+            <view class='seletion1'>
+              <view class='time' wx-if="{{item.logisticsCode == null}}">提交时间 ：{{item.payTime}}</view>
+              <view wx-if="{{item.logisticsCode !== null}}" class='logistics'>
+                <view class='fl'>
+                  <view class='logi-title'>物流信息</view>
+                  <view class='logi-desc'>
+                    <view class='logi-name'>物流名称: {{item.logisticsName}}</view>
+                    <view class='logi-id'>物流单号: {{item.logisticsNo}}</view>
+                    <view class='logi-time'>发货时间: {{item.dispatchTime}}</view>
+                  </view>
+                </view>
+                <view class='footer'>
+                  <text class='book' bindtap='haneld' data-item="{{item}}">查看物流</text>
+                  <text class='confirm' bindtap='hanleConfirm' data-id="{{item.id}}">确认收货</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+    <!-- 已完成 -->
+    <swiper-item>
+      <view class='null' wx-if="{{dataList3 == ''}}">
+        <image src='../../asset/null.png'></image>
+        <view class='null-desc'>还没有订单哦~</view>
+      </view>
+      <scroll-view scroll-y="true" wx-else class="scoll-h">
+        <view class='order-ul' wx:for='{{dataList3}}' wx:key="id">
+          <view class='order-li'>
+            <view class='orderNum'>
+              <view class='orderNum-left'>
+                <text class='icon-pai' wx-if="{{item.orderType == 1}}">兑换</text>
+                <text class='icon-pai bg1' wx-if="{{item.orderType == 0}}">竞拍</text>
+                <text class='icon-pai bg4' wx-if="{{item.orderType == 2}}">中奖</text>
+                <text class='icon-pai bg2' wx-if="{{item.orderType == 3}}">商城</text>
+                <text class='icon-pai bg3' wx-if="{{item.orderType == 4}}">直购</text> 订单号 {{item.orderNo}}</view>
+              <view class='orderNum-right' wx-if="{{item.status == 5}}">已完成</view>
+            </view>
+            <view class='seletion'>
+              <view class='seletion-left'>
+                <image class='seletion-img' src='{{item.goods.goodsCoverImg}}'></image>
+              </view>
+              <view class='left-bd'>
+                <view class='title'>{{item.goods.goodsName}}</view>
+                <view class='num' wx-if="{{item.orderType == 1}}">
+                  <text class='tet'>已消耗:</text> {{item.orderLePoint}}
+                  <text class='mon2'>乐点</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 3 && item.orderPrice > 0}}">
+                  <text class='mon2'>￥</text>{{item.orderPrice}}
+                  <text class='mon'>+</text>{{item.orderEquity}}
+                  <text class='mon'> 权益值</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 3 && item.orderPrice <= 0 }}">
+                  {{item.orderEquity}}
+                  <text class='mon'> 权益值</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 0 || item.orderType == 4}}">
+                  <text class='tet'>已支付:</text>
+                  <text class='mon2'>￥</text>{{item.orderPrice}}
+                </view>
+                <view class='one'>x{{item.number}}</view>
+              </view>
+            </view>
+            <view class='seletion1'>
+            <view class='logistics'>
+              <view class='fl'>
+                <view class='logi-title'>物流信息</view>
+                <view class='logi-desc'>
+                  <view class='logi-name'>物流名称: {{item.logisticsName}}</view>
+                    <view class='logi-id'>物流单号: {{item.logisticsNo}}</view>
+                  <view class='logi-time'>发货时间: {{item.dispatchTime}}</view>
+                </view>
+              </view>
+              <view class='footer'>
+                  <text class='book' bindtap='haneld' data-item="{{item}}">查看物流</text>
+              </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+    <!-- 违约 -->
+    <swiper-item>
+      <view class='null' wx-if="{{dataList4 == ''}}">
+        <image src='../../asset/null.png'></image>
+        <view class='null-desc'>还没有订单哦~</view>
+      </view>
+      <scroll-view wx-else scroll-y="true" class="scoll-h">
+        <view class='order-ul' wx:for='{{dataList4}}' wx:key="id">
+          <view class='order-li'>
+            <view class='orderNum'>
+              <view class='orderNum-left'>
+                <text class='icon-pai' wx-if="{{item.orderType == 1}}">兑换</text>
+                <text class='icon-pai bg1' wx-if="{{item.orderType == 0}}">竞拍</text>
+                <text class='icon-pai bg4' wx-if="{{item.orderType == 2}}">中奖</text>
+                <text class='icon-pai bg2' wx-if="{{item.orderType == 3}}">商城</text>
+                <text class='icon-pai bg3' wx-if="{{item.orderType == 4}}">直购</text> 订单号 {{item.orderNo}}</view>
+              <view class='orderNum-right' wx-if="{{item.status == 4}}">违约</view>
+            </view>
+            <view class='seletion'>
+              <view class='seletion-left'>
+                <image class='seletion-img' src='{{item.goods.goodsCoverImg}}'></image>
+              </view>
+              <view class='left-bd'>
+                <view class='title'>{{item.goods.goodsName}}</view>
+                <view class='num' wx-if="{{item.orderType == 1}}">
+                  <text class='tet'>已消耗:</text> {{item.orderLePoint}}
+                  <text class='mon2'>乐点</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 0}}">
+                  <view>
+                    <text class='tet1'>成交价：</text>
+                    <text class='tet1'>￥</text>
+                    <text class='tet1'>{{item.totalPrice}}</text>
+                  </view>
+                  <view>
+                    <text class='tet'>违约金：</text>
+                    <text class='mon2'>￥</text> {{item.blockMoney}}</view>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 3 && item.orderPrice > 0}}">
+                  <text class='mon2'>￥</text>{{item.orderPrice}}
+                  <text class='mon'>+</text>{{item.orderEquity}}
+                  <text class='mon'> 权益值</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 3 && item.orderPrice <= 0 }}">
+                  {{item.orderEquity}}
+                  <text class='mon'> 权益值</text>
+                </view>
+                <view class='num' wx-if="{{item.orderType == 4}}">
+                  <text class='tet'>已支付:</text>
+                  <text class='mon2'>￥</text>{{item.orderPrice}}
+                </view>
+                <view class='one'>x1</view>
+              </view>
+            </view>
+            <view class='seletion1'>
+              <view class='time'>违约时间 ：{{item.operTime}}</view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+  <i-toast id="toast" />
+  <!-- 确认收货 -->
+  <i-modal title="温馨提示" visible="{{visible}}" bind:ok="handleClose1" bind:cancel="handleClose1">
+    <view>确认收货吗?</view>
+  </i-modal>
+  <!-- 查看物流 -->
+  <view id='msg' wx:if="{{msgShow}}" bindtap='haldMsg'>
+  </view>
+  <view class='box2' wx:if="{{msgShow}}">
+    <view class='box-test'>
+      <view class="box-tl">物流详情</view>
+      <view class='g_con'>
+        <view class='topExpress'>
+          <view class='topExpress-right'>
+            <view class='topExpress-right-top'>{{datainfo2.logisticsName}} ：{{datainfo2.logisticsNo}}</view>
+            <view class='hg'>
+              <view class='shouhuo'>收货地址 ：</view>
+              <view class='le'>
+                <view class='topExpress-right-middle'>
+                  {{datainfo2.addressContact}} {{datainfo2.addressPhone}}</view>
+                <view class='topExpress-right-bottom'>{{datainfo2.address}}</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <!-- 物流时间轴 -->
+        <scroll-view scroll-y="true" class='expressRecord' bindscrolltolower="loadMore" bindscrolltoupper="refesh">
+          <view class='expressRecord-single-close'>
+            <view class='expressRecord-single-noReach-online-top-close'>
+              <view class='dot-closing'></view>
+              <view class='online-bottoming'></view>
+            </view>
+            <view class='expressRecord-text'>
+              <view class='expressRecord-status'></view>
+              <view class='expressRecord-status-addressing'>{{(dataInfos[0].remark)}}</view>
+            </view>
+            <view class='expressRecord-date'>
+              <view class='expressRecord-date-text'>
+                {{(dataInfos[0].occurTime[1])}}
+              </view>
+              <view class='expressRecord-date-time'>
+                {{(dataInfos[0].occurTime[0])}}
+              </view>
+            </view>
+          </view>
+          <!-- 单个物流记录点时间轴：当前正在进行的物流状态 -->
+          <block wx:for="{{dataInfos2}}" wx:for-item="items">
+            <view class='expressRecord-single-close'>
+              <view class='expressRecord-single-noReach-online-top-close'>
+                <view class='online-top-close'></view>
+                <view class='dot-close'></view>
+                <view class='online-bottom'></view>
+              </view>
+              <view class='expressRecord-text'>
+                <view class='expressRecord-status-address'>{{items.remark}}</view>
+              </view>
+              <view class='expressRecord-date'>
+                <view class='expressRecord-date-text'>
+                  {{items.occurTime[1]}}
+                </view>
+                <view class='expressRecord-date-time'>
+                  {{items.occurTime[0]}}
+                </view>
+              </view>
+            </view>
+          </block>
+          <view class='expressRecord-single-close'>
+            <view class='expressRecord-single-noReach-online-top-close'>
+              <view class='online-top-close'></view>
+              <view class='dot-close'></view>
+              <view class='online-bottom-start'></view>
+            </view>
+            <view class='expressRecord-text'>
+              <view class='expressRecord-status'></view>
+              <view class='expressRecord-status-address'>{{(dataInfos[dataInfos.length-1].remark)}}</view>
+            </view>
+            <view class='expressRecord-date'>
+              <view class='expressRecord-date-text'>
+                {{(dataInfos[dataInfos.length-1].occurTime[1])}}
+              </view>
+              <view class='expressRecord-date-time'>
+                {{(dataInfos[dataInfos.length-1].occurTime[0])}}
+              </view>
+            </view>
+          </view>
+
+        </scroll-view>
+      </view>
+    </view>
+  </view>
+</view>

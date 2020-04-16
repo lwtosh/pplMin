@@ -1,0 +1,10 @@
+<view class="cont">
+<canvas canvas-id="canvasposter" class='canvas-poster'></canvas>
+  <image class='header' src='../../asset/text2.png'></image>
+  <view class='main'>
+    <view class='code'>我的邀请码：{{dataInfo.inviteCode }} </view>
+    <image class='er' src='{{dataInfo.qrcode}}'></image>
+    <view class='pay'>用微信 | 支付宝 | 浏览器 扫一扫</view>
+  </view>
+  <view class='share'></view>
+</view>

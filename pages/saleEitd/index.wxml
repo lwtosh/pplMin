@@ -1,0 +1,16 @@
+<view class="item">
+  <view class='item-index'>
+    <view class='left'>商品名称</view>
+    <view class='right tl'>{{dataInfo.goodsVo.goodsName || dataInfo.goods.goodsName}}</view>
+  </view>
+  <view class='item-index'>
+    <view class='left'>市场价</view>
+    <view class='right'>￥{{dataInfo.goodsVo.marketPrice || dataInfo.goods.marketPrice}}</view>
+  </view>
+  <view class='item-index'>
+    <view class='left'>寄卖价</view>
+    <view class='right'> <input class='ji' type='number' bindinput="bindKeyInput" value='{{dataInfo.salePrice}}'></input></view>
+  </view>
+</view>
+<i-toast id="toast" />
+<view class='footer' bindtap='pay'>确定寄卖</view>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "好友助力",
+  "usingComponents": {
+    "i-toast": "../../dist/toast/index"
+  }
+}

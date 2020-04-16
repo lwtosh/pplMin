@@ -1,0 +1,63 @@
+.haedView {
+  margin: 90rpx 50rpx 90rpx 50rpx;
+}
+
+.headImageView {
+  display: block;
+  margin: 25px 25px 0px 25px;
+  height: 50px;
+}
+
+.headImage {
+  display: flex;
+  margin: auto;
+  width: 80px;
+  height: 70px;
+}
+
+.titleText {
+  margin: 25px 0 10px 25px;
+  font-size: 14px;
+  color: #020e0f;
+  text-align: center;
+}
+
+.contentText {
+  margin: 0px 0px 0px 25px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+
+.authBtn {
+  margin: 35px 25px 0px 25px;
+  height: 45px;
+  font-size: 17.5px;
+}
+
+.box {
+  padding-left: 68rpx;
+  font-family: PingFang-SC-Regular;
+  width: 100%;
+}
+
+.show {
+  display: block;
+   margin: 35px 25px 0px 25px;
+  height: 45px;
+  font-size: 17.5px;
+}
+
+.hide {
+  display: none;
+   margin: 35px 25px 0px 25px;
+  height: 45px;
+  font-size: 17.5px;
+}
+.cale{
+  font-size: 32rpx;
+  color: #F52D6A;
+  text-align: right;
+  margin-top: 20rpx;
+  margin-right: 50rpx;
+}

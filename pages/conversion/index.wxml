@@ -1,0 +1,188 @@
+<view class="header">
+  <i-cell-group i-class="sele">
+    <i-cell title="请选择收获地址" wx:if="{{addresssInfo == null}}" is-link url="/pages/add/index">
+      <i-icon slot="icon" type="coordinates_fill" size="28" color="#F51E73" i-class="coordinates_fill" />
+    </i-cell>
+    <i-cell title="" is-link bindtap="handleChange" wx:else>
+      <view class='box'>
+        <view class='hd'>收货人：{{item == undefined ? addresssInfo.consignee : item.consignee}}
+          <text class='tel'>{{item == undefined ? addresssInfo.phone : item.phone}}</text> </view>
+        <view class='bd'>收货地址：{{item == undefined  ? addresssInfo.province : item.province }}{{item == undefined  ? addresssInfo.city : item.city }}{{item == undefined  ? addresssInfo.county : item.county }}{{item == undefined  ? addresssInfo.address : item.address}} </view>
+      </view>
+      <i-icon slot="icon" type="coordinates_fill" size="28" color="#F51E73" i-class="coordinates_fill" />
+    </i-cell>
+  </i-cell-group>
+  <view class='line'></view>
+  <view class='list' bindtap='hanle' data-id="{{item.id}}">
+    <view class='left'>
+      <image src='{{dataInfo.goodsVo.goodsCoverImg}}'></image>
+    </view>
+    <view class='left-bd'>
+      <view class='title'>{{dataInfo.goodsVo.goodsName}}</view>
+      <view class='num' wx-if="{{is == 'le'}}">
+        {{dataInfo.lePoint}}
+        <text class='mon'>乐点</text>
+      </view>
+      <view class='num' wx-if="{{is == 'quan' && dataInfo.money > 0}}">
+        <text class='mon'>￥</text>{{dataInfo.money}}
+        <text class='tet'>+</text>{{dataInfo.equity}}
+        <text class='tet'>权益值</text>
+      </view>
+      <view class='num' wx-if="{{is == 'quan' && dataInfo.money <= 0}}">
+        {{dataInfo.equity}}
+        <text class='mon'>权益值</text>
+      </view>
+      <view class='num' wx-if="{{is == 'ji'}}">
+        <text class='mon'>￥</text>{{dataInfo.salePrice}}
+      </view>
+      <view class='one'>x1</view>
+    </view>
+  </view>
+  <i-cell-group>
+    <i-cell title="处理方式：" i-class="cell" wx-if="{{is == 'le'}}">
+      <i-radio-group current="{{current}}" bindchange="handleFruitChange" slot="footer">
+        <i-radio i-class="radio" wx:for="{{fruit}}" wx:key="{{item.id}}" value="{{item.name}}" color="#F52A6C">
+        </i-radio>
+      </i-radio-group>
+    </i-cell>
+    <i-cell title="" i-class="cell" wx-if="{{is == 'quan' && dataInfo.money > 0}}">
+      实际付款：
+      <text class='mon1'>￥{{dataInfo.money}} </text>
+      <text class='tet'>+</text>
+      <text class='mon1'>{{dataInfo.equity}} </text>
+      <text class='tet'>权益值(可用权益值{{equity}})</text>
+    </i-cell>
+    <i-cell title="" i-class="cell" wx-if="{{is =='quan' && dataInfo.money <= 0}}">
+      实际付款：
+      <text class='mon1'>{{dataInfo.equity}} </text>
+      <text class='tet'>权益值(可用权益值{{equity}})</text>
+    </i-cell>
+    <i-cell title="实际消耗乐点：{{dataInfo.lePoint}}乐点 ( 可用乐点：{{lePoint}} )" i-class="cell" wx-if="{{is == 'le'}}">
+    </i-cell>
+    <i-cell title="共1件商品,需付款￥{{dataInfo.salePrice}}" i-class="cell3 cell" wx-if="{{is == 'ji'}}">
+    </i-cell>
+  </i-cell-group>
+  <view class='paysele' wx-if="{{(is == 'quan' && dataInfo.money > 0) || is == 'ji' }}">
+    <view class='tile'>选择支付方式 <image class='qian' src='../../asset/qian.png'></image></view>
+    
+    <i-radio-group bindchange="handleFruitChange2" slot="footer">
+    
+      <i-radio position="right" value="余额 (当前余额￥{{money}})" checked='true' color="#F52A6C">
+      </i-radio>
+    </i-radio-group>
+  </view>
+  <!-- 乐点 -->
+  <view class='footer' wx-if="{{is == 'le'}}">
+    <view class='footer-left'>消耗总乐点:
+      <text class='sizeColor'>{{dataInfo.lePoint}}</text>
+    </view>
+    <view class='footer-right' bindtap='pay'>确认兑换</view>
+  </view>
+  <!-- 权益值 -->
+  <view class='footer' wx-if="{{is == 'quan'}}">
+    <view class='footer-left' wx-if="{{dataInfo.money > 0}}">实付总额:
+      <text class='sizeColor'>￥{{dataInfo.money}}+{{dataInfo.equity}}权益值</text>
+    </view>
+    <view class='footer-left' wx-if="{{dataInfo.money == 0}}">实付总额:
+      <text class='sizeColor'>{{dataInfo.equity}}权益值</text>
+    </view>
+    <view class='footer-right' bindtap='pay2'>确认付款</view>
+  </view>
+  <!-- 寄卖 -->
+  <view class='footer' wx-if="{{is == 'ji'}}">
+    <view class='footer-left'>实付总额:
+      <text class='sizeColor'>￥{{dataInfo.salePrice}}</text>
+    </view>
+    <view class='footer-right' bindtap='pay3'>确认付款</view>
+  </view>
+  <i-modal title="温馨提示" visible="{{ visible1 }}" bind:ok="handleClose1" bind:cancel="handleClose1">
+    <view wx-if="{{is == 'le'}}">确定要花费
+      <text class='sizeColor'>{{dataInfo.lePoint}}乐点</text>兑换该商品吗？</view>
+  </i-modal>
+  <i-modal title="温馨提示" visible="{{ visible3 }}" bind:ok="handleClose2" bind:cancel="handleClose2">
+    <view wx-if="{{is == 'quan' && dataInfo.money > 0}}">确定要花费
+      <text class='sizeColor'>￥{{dataInfo.money}}+{{dataInfo.equity}}权益值</text>购买该商品吗？</view>
+    <view wx-if="{{is == 'quan' && dataInfo.money <= 0}}">确定要花费
+      <text class='sizeColor'>{{dataInfo.equity}}权益值</text>购买该商品吗？</view>
+  </i-modal>
+  <i-modal title="温馨提示" visible="{{ visible4 }}" bind:ok="handleClose3" bind:cancel="handleClose3">
+    <view wx-if="{{is == 'ji'}}">确定要花费
+      <text class='sizeColor'>{{dataInfo.salePrice}}</text>购买该商品吗？</view>
+  </i-modal>
+  <i-toast id="toast" />
+  <view id='msg' wx:if="{{msgShow}}" bindtap='haldMsg'>
+  </view>
+  <view class='box2' wx:if="{{msgShow}}">
+    <view class='box-test'>
+      <view class="box-tl">托管协议</view>
+      <scroll-view class='box-scroll' scroll-y="true" style="height: 280rpx;" scroll-with-animation>
+        <view class='box-tl2'>商品委托托管拍卖协议</view>
+        <view class='box-index1'>拍卖人： 浙江拍拍乐拍卖有限公司</view>
+        <view class='box-index1'>电话： 4006-700-556</view>
+        <view class='box-index'>根据《中华人民共和国合同法》、《中华人民共和国拍卖法》、《中国拍卖行业通则》等国家法律、规范性文件等相关规章制度及浙江拍拍乐拍卖有限公司拍卖规则，就委托人委托拍品暂时托管给拍卖人并委托拍卖人对委托拍卖标的在浙江拍拍乐拍卖有限公司（拍拍乐 APP）进行公开线上拍卖事宜，明确双方责任义务，本着平等、自愿、公平和诚实守信的原则，经协商一致，签订本协议。</view>
+        <view class='box-index-tl'>第一章 拍品托管</view>
+        <view class='box-index1'>第一条 拍卖人接受托管的前置条件</view>
+        <view class='box-index'>委托人应保证对委托暂保管拍品拥有合法的无争议的所有权及处分权。</view>
+        <view class='box-index1'>第二条 双方权利与义务</view>
+        <view class='box-index'>1、委托人保证对委托暂保管拍品拥有合法的无争议的所有权，且不存在何权利瑕疵。</view>
+        <view class='box-index'>2、委托人保证在本协议项下所提供的任何信息、资料是真实、合法、准确、完整的，不存在虚假记载、误导性陈述或重大遗漏。</view>
+        <view class='box-index'>3、委托人保证遵守《拍卖法》《拍卖监督管理办法》等相关法律、法规、政策及浙江拍拍乐拍卖有限公司拍卖规则。</view>
+        <view class='box-index'>4、拍卖人在受托暂保管拍品期间只提供本协议约定范围内的服务。
+
+        </view>
+        <view class='box-index'>5、拍卖人在接受委托拍品暂保管时，按照委托人提交的托管订单核对货物及单据（型号、订单号、数量、质量），核对商品入库。</view>
+        <view class='box-index'>6、拍卖人必须保证选用的仓库具备防雨、防火、防潮的基本功能。</view>
+        <view class='box-index'>7、拍卖人对拍品暂保管期间，因保管不善原因导致的暂保管商品的损坏、短缺、丢失，拍卖人承担保管责任。</view>
+        <view class='box-index'>8、拍卖人每月对暂保管商品进行盘点和对账。</view>
+        <view class='box-index1'>第三条 托管费用标准及托管期限</view>
+        <view class='box-index'>1、拍卖人对委托暂保管的商品，给予三十天的免费暂保管期。</view>
+        <view class='box-index'>2、超出三十天免费保管期限，需要在仓库继续保管的，将会被收取仓储保管费，月仓储保管费比例为货值的2%。</view>
+        <view class='box-index'>3、托管商品最长托管期为六个月，如超出最长托管期限，则停止托管由委托方自行提货。需要继续托管的必须重新办理托管手续。</view>
+        <view class='box-index1'>第四条 释义</view>
+        <view class='box-index'>拍卖人（暂保管方）：浙江拍拍乐拍卖有限公司</view>
+        <view class='box-index'>委托人（拍品所有权人）：委托拍品暂保管的委托人</view>
+        <view class='box-index-tl'>第二章 委托拍卖</view>
+        <view class='box-index1'>第一条 委托人自愿就拥有合法所有权及处置权的拍卖物委托拍卖人依法公开线上拍卖。拍卖物名称、品种规格（编号）、数量、质量： 见在线托管订单详情</view>
+        <view class='box-index'>拍品存放地：委托暂保管至浙江拍拍乐拍卖有限公司指定仓库</view>
+        <view class='box-index1'>第二条 拍卖物的交接方式：物流</view>
+        <view class='box-index1'>第三条 拍卖物的底价：委托方可在法律允许的情况下自行确定拍卖物的底价（保留价）或者授权拍卖方（拍卖人）按照市场规则设定拍卖物的底价（保留价）。委托人自行确定拍卖物底价（保留价）的以委托人的书面确定为准。</view>
+        <view class='box-index1'>第四条 拍卖方式：线上公开固定加价式拍卖</view>
+        <view class='box-index1'>第五条 拍卖期限：根据委托人提出委托拍卖请求的时间，由平台按照时间优先原则进行上拍时间排期。</view>
+        <view class='box-index1'>第六条 双方的权利和义务</view>
+        <view class='box-index'>1、委托人保证对拍卖物拥有无争议的所有权及处分权，并向拍卖方提供有关的证明文件和拍卖物的详尽资料。必要时，拍卖方可随时向委托方要求提供咨询，委托方不得拒绝。</view>
+        <view class='box-index'>2、委托方可在法律允许的情况下书面方式确定拍卖物的底价（保留价）;拍卖方不得以低于该底价（保留价）的价格进行拍卖，但因此而造成不能成交的，由委托方承担责任。</view>
+        <view class='box-index'>3、委托人允许拍卖人将商品在拍拍乐APP进行公开线上拍卖 ，若该商品未成交（流拍或拍中方竞购成功未付款），拍卖人可继续为委托人安排上拍，在拍卖成交前，委托人可以随时终止对该商品的委托拍卖行为，提走商品。</view>
+        <view class='box-index'>4、委托人在交付拍卖物时，应向拍卖人指出其知道或应当知道的拍卖物瑕疵。否则，由此造成的后果由委托人负责。</view>
+        <view class='box-index'>5、委托人按成交总金额的30%向拍卖人支付佣金（乐点换购商品的拍卖按照成交总金额的10%向拍卖人支付拍卖佣金）;该款项由拍卖人从拍卖所得价款中收取扣除。</view>
+        <view class='box-index'>6、拍卖人应对拍卖物的底价保密，不得委托或代理他人参加竞价。</view>
+        <view class='box-index'>7、拍卖过程结束，如拍卖成交，拍卖方在收齐全部应收款项后，应于七日内，将拍卖所得一次性付给委托人。</view>
+        <view class='box-index1'>第七条 合同履行产生纠纷时，双方同意由浙江嘉兴仲裁委员会仲裁。</view>
+        <view class='box-index1'>第八条 委托人在清晰明确本协议内容并勾选同意后，视同认可本协议全部内容。</view>
+      </scroll-view>
+      <view class='agment'>
+        <checkbox-group bindchange="checkboxChange">
+          <checkbox color="#F51E73" value="1" checked="{{false}}">我已阅读并同意
+            <text class='color'>《用户托管协议》</text> </checkbox>
+        </checkbox-group>
+      </view>
+    </view>
+    <view class='btn-agement' bindtap='btnAgement' wx-if="{{is == 'le'}}">同意协议并兑换</view>
+    <view class='btn-agement' wx-if="{{is == 'quan' || is == 'ji'}}">同意协议并付款</view>
+  </view>
+  <view id='msg1' wx:if="{{msgShow1}}" bindtap='haldMsg'>
+  </view>
+  <view class='box1' wx:if="{{msgShow1}}">
+    <view class='box-test'>
+      <view class="box-tl">确认支付金额</view>
+      <view class='box-pay' style="text-align: center;margin-bottom: 30rpx;">
+        <text class='tet'>￥</text> {{dataInfo.salePrice}}</view>
+      <view class='item-1'>订单号：
+        <text class='tet'>{{orderid}}</text>
+      </view>
+      <view class='item-1' style="margin-bottom: 50rpx;">支付方式：
+        <text class='tet'>余额支付</text>
+      </view>
+    </view>
+    <view class='btn-agement' catchtap='payment'>支付</view>
+  </view>
+</view>

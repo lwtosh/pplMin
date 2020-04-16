@@ -1,0 +1,19 @@
+<view class='cont'>
+  <view class='header'>
+    <view class='top'>
+      <view class='hd'>GET 积分新姿势</view>
+      <view class='hd1'> 赶紧点一点送我积分吧！ </view>
+      <view class='hd2'></view>
+      <view class='bd'> 好玩、有趣、开心赚钱</view>
+      <view class='bd2'>新用户赠送积分参加暴击，赠送拍拍券免费撸出价红包</view>
+    </view>
+  </view>
+  <view class='desc'><view>我的拍拍乐积分用完了，我要继续使用“拍拍乐出价暴击”，</view><view class='center'>点击分按钮送我积分吧!</view></view>
+  <view class='btn'  bindtap="handleSuccess">
+    送TA积分
+    <image src='../../asset/anniu.png'></image>
+  </view>
+  <i-toast id="toast" />
+  <view class='foot'>注意:每位好友每周最多只能送TA一次积分</view>
+
+</view>

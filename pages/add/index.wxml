@@ -1,0 +1,13 @@
+ <block wx:for='{{dataList}}' wx:key="item.id">
+<view class="list" bindtap='handleChangeAddress' data-item="{{item}}">
+  <radio-group class="radio-group" current="{{current}}" bindchange="handleChange">
+    <radio class="radio" value='{{item.id}}' checked="{{item.isDefault == 1 || check == 1 ? true : false}}"  color="#F51E73"  >
+    </radio>
+    </radio-group>
+    <view class='desc'>
+     <view class='desc-name'>{{item.consignee }} <text class='desc-tel'>{{item.phone }}</text> </view>
+     <view class='desc-adderss'> <text class='is-details' wx-if="{{item.isDefault == 1}}">默认 </text> {{item.province }}{{item.city }}{{item.county }}{{item.address}}</view>
+    </view>
+</view>
+</block>
+<view class='btn'  bindtap="address">新增收货地址</view>

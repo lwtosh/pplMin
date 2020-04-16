@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "详情",
+  "usingComponents": {
+    "i-col": "../../dist/col/index",
+    "i-panel": "../../dist/panel/index",
+    "i-cell": "../../dist/cell/index",
+    "i-button": "../../dist/button/index",
+    "i-count-down": "../../dist/count-down/index",
+    "i-divider": "../../dist/divider/index"
+  }
+}

@@ -1,0 +1,43 @@
+<page>
+  <!-- 轮播详情 -->
+  <view class='swiper'>
+    <swiper indicator-dots="{{indicatorDots}}" circular="{{circular}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <block wx:for="{{imgUrl}}" wx:for-item="items">
+        <swiper-item>
+          <image src="{{items}}" class="slide-image" bindtap="changeDetail" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class='cont1 clearfix'>
+    <!-- 标题 -->
+    <text class='title clearfix'>{{dataList.goodsVo.goodsName}}</text>
+    <!-- 价格 -->
+    <view class='hd clearfix'>
+      <view class='left clearfix'>
+        {{dataList.lePoint}}<text class='mon'> 乐点</text>
+      </view>
+      <view class='foot'>
+        <view class='left-bd'>市场价:
+          <text class='th'>￥ {{dataList.goodsVo.marketPrice}}</text>
+        </view>
+        <view class='right'> <text class="mr">剩余件数:{{dataList.storeNum == null ? 0 : dataList.storeNum  }}</text>已兑换件数:{{dataList.cashNum == null ? 0 : dataList.cashNum }}</view>
+      </view>
+    </view>
+  </view>
+  <view class='list'>
+    <view class='cont2'>
+    <i-divider class='content' color="#404040" size="14" content="商品详情" height="30" line-color="#CCC"></i-divider>
+      <!-- <view class='content'>商品详情</view> -->
+      <view class='footer' wx-if='{{dataList.goodsVo.goodsDetail !== null}}'>
+        <view class='f1'>
+          <text>{{dataList.goodsVo.goodsDetail}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:for="{{imgUrl2}}" class='footImg' wx:for-item="items">
+      <image src="{{items}}" mode='widthFix' style="width:100vw"></image>
+    </view>
+  </view>
+  <view class='btn' bindtap='btn'>立即兑换</view>
+</page>

@@ -1,0 +1,108 @@
+<view class='cont' wx-if="{{isActive}}">
+  <!-- 轮播详情 -->
+  <view class='swiper'>
+    <view class='ppl2' wx-if="{{imgUrl == ''}}">
+      <image src='../../asset/ppl2.png'></image>
+    </view>
+    <swiper indicator-dots="{{indicatorDots}}" circular="{{circular}}" indicator-active-color="{{indicatorActiveColor}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <block wx:for="{{imgUrl}}" wx:for-item="items">
+        <swiper-item>
+          <image src="{{items.picUrl}}" class="slide-image" bindtap="changeDetail" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <!-- 导航 -->
+  <view class='nav'>
+    <view class='nav-1' bindtap='ledian'>
+      <image src='../../asset/ledian.png'></image>
+      <view class='nav-text'>乐点专区</view>
+    </view>
+    <view class='nav-1' bindtap='quan'>
+      <image src='../../asset/quanyizhi.png'></image>
+      <view class='nav-text'>权益值专区</view>
+    </view>
+    <view class='nav-1' bindtap='jimai'>
+      <image src='../../asset/jimai.png'></image>
+      <view class='nav-text'>寄卖专区</view>
+    </view>
+    <!-- <view class='nav-1' bindtap='zhi'>
+      <image src='../../asset/quanyizhi.png'></image>
+      <view class='nav-text'>直购专区</view>
+    </view> -->
+  </view>
+  <!-- 精品兑换 -->
+  <view class='exchange'>
+    <view class='hot-hd'>
+      <view class='h3'>精品兑换</view>
+      <view class='hot-text' bindtap="more">查看更多></view>
+    </view>
+    
+    <scroll-view class='ul l' scroll-x="true" style="height: 350rpx;" scroll-with-animation>
+      <!-- <view> -->
+      <view class='null' wx-if="{{dataList2 == ' '}}">
+      <view class='null-desc' style="color:#000;">还没有商品哦~</view>
+    </view>
+      <block wx:for='{{dataList2}}' wx:key="id">
+
+        <view class='list l3' bindtap='hanle2' data-id="{{item.id}}">
+          <view class='left'>
+            <image src='{{item.goodsVo.goodsCoverImg}}'></image>
+            <view class='left-bd'>
+              <view class='title'>{{item.goodsVo.goodsName}}</view>
+              <view class='num' wx-if="{{item.money>0}}">
+                <text class='mon'>￥</text>{{item.money}}+{{item.equity}}
+                <text class='quan'>权益值</text>
+              </view>
+              <view class='num' wx-if="{{item.money<=0}}">{{item.equity}}
+                <text class='quan'>权益值</text>
+              </view>
+
+            </view>
+          </view>
+
+        </view>
+      </block>
+      <!-- </view> -->
+    </scroll-view>
+  </view>
+  <!-- 热拍商品 -->
+  <view class='hot'>
+    <view class='hot-hd'>
+      <view class='h3'>热拍商品</view>
+      <view class='hot-text'>官方审核:保证真品,售后无忧</view>
+    </view>
+    <view class='null' wx-if="{{dataList == ''}}">
+      <image src='../../asset/null.png'></image>
+      <view class='null-desc'>还没有商品哦~</view>
+    </view>
+    <view class='ul'>
+      <block wx:for='{{dataList}}' wx:key="id">
+        <view class='list' bindtap='hanle' data-id="{{item.id}}">
+          <view class='left'>
+            <image src='{{item.goodsVo.goodsCoverImg}}'></image>
+            <view class='pay' wx-if='{{item.countDown == 0}}'>正在热拍</view>
+            <view class='pay hui' wx-if='{{item.countDown === -1}}'>今日已结束</view>
+            <view class='ju' wx-if='{{item.countDown > 0}}'>据开始{{messageTime}}</view>
+            <view class='left-bd'>
+              <view class='title h'>{{item.goodsName}}</view>
+              <view class='num'>
+                <text class='mon'>￥</text>{{item.startPrice }}
+                <text class='new'>起拍价</text>
+              </view>
+
+            </view>
+          </view>
+
+        </view>
+      </block>
+    </view>
+
+  </view>
+  <i-toast id="toast" />
+</view>
+<!-- <view class='msg' wx-if="{{msg && cale == '1'}}" bindtap='handleMsg'></view> -->
+  <!-- <view class='model' wx-if="{{msg}}">
+    <view class='no'>还没有登录哦！</view>
+    <view class='login' bindtap='login'>去登录</view>
+</view> -->

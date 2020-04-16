@@ -1,0 +1,9 @@
+<text class="countdown-class">
+  {{time}}
+  <!-- <text class='time'>{{hour}}</text>
+  <text class='time1'>: </text>
+  <text class='time'>{{minute}}</text>
+  <text class='time1'>:</text>
+  <text class='time'>{{second}}</text> -->
+</text>
+

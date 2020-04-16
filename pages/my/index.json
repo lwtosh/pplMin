@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "会员中心",
+  "usingComponents": {
+    "i-toast": "../../dist/toast/index"
+ },
+  "enablePullDownRefresh": true
+}

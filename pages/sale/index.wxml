@@ -1,0 +1,51 @@
+<view class='order'>
+  <view class='null' wx-if="{{dataList == ''}}">
+    <image src='../../asset/null.png'></image>
+    <view class='null-desc'>还没有订单哦~</view>
+  </view>
+  <scroll-view scroll-y="true" wx-else class="scoll-h">
+  <view class='order-ul' wx:for='{{dataList}}' wx:key="item.id">
+    <view class='order-li'>
+      <view class='orderNum'>
+        <view class='orderNum-left'>订单号 {{item.orderNo}}</view>
+        <view class='orderNum-right' wx-if="{{item.status == 1}}">已上线</view>
+        <view class='orderNum-right' wx-if="{{item.status == -1}}">已下线</view>
+        <view class='orderNum-right' wx-if="{{item.status == 2}}">寄卖中</view>
+        <view class='orderNum-right' wx-if="{{item.status == 0}}">未上线</view>
+        <view class='orderNum-right' wx-if="{{item.status == 3}}">已寄卖</view>
+      </view>
+      <view class='seletion'>
+        <view class='seletion-left'>
+          <image class='seletion-img' src='{{item.goodsVo.goodsCoverImg}}'></image>
+        </view>
+        <view class='left-bd'>
+          <view class='title'>{{item.goodsVo.goodsName}}</view>
+          <view class='num'>
+            <view>
+              <text class='mon2'>￥</text>{{item.salePrice}}
+            </view>
+            <view class='tet'>
+              市场价：
+              <text class='line'>￥{{item.goodsVo.marketPrice}}</text> </view>
+          </view>
+        </view>
+      </view>
+      <view class='seletion1'>
+        <view class='box'>
+          <view class='time' wx-if="{{item.status !== 3}}">寄卖时间 ：{{item.publishTime}}</view>
+          <view class='time' wx-if="{{item.status == 3}}">卖出时间 ：{{item.payTime}}</view>
+          <view class='check'>
+            <view class='confirm' data-id="{{item.id}}" bindtap='hanleopen' wx-if="{{item.status == 1}}">下架</view>
+            <view class='confirm' data-item="{{item}}" bindtap='hanleEitd' wx-if="{{item.status == 0}}">修改</view>
+            <view class='confirm' data-item="{{item}}" bindtap='hanleSale' wx-if="{{item.status == 0}}">提货</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  </scroll-view>
+  <i-toast id="toast" />
+  <i-modal title="温馨提示" visible="{{visible1}}" bind:ok="handleClose1" bind:cancel="handleClose1">
+    <view>确定要下架吗？</view>
+  </i-modal>
+</view>

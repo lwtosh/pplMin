@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "添加收货地址",
+  "usingComponents": {
+      "i-input": "../../dist/input/index",
+      "i-toast": "../../dist/toast/index"
+  }
+}

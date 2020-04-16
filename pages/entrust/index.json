@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "我的托管",
+  "usingComponents": {
+    "i-cell-group": "../../dist/cell-group/index",
+    "i-cell": "../../dist/cell/index",
+    "i-icon": "../../dist/icon/index",
+    "i-toast": "../../dist/toast/index",
+    "i-modal": "../../dist/modal/index",
+    "i-radio-group": "../../dist/radio-group/index",
+    "i-radio": "../../dist/radio/index",
+    "i-action-sheet": "../../dist/action-sheet/index"
+   },
+    "enablePullDownRefresh": true
+}

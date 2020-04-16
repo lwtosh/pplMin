@@ -1,0 +1,125 @@
+<view class="cont">
+  <view class='header'>
+    <view class='header-hd'>
+      <view class='msg'>
+        <image src='../../asset/ara.png' wx:if="{{active}}" class='msg-user'></image>
+        <image src='{{userInfo.avatar }}' wx:else class='msg-user'></image>
+         <view class='msg-text' wx:if="{{active}}" bindtap='handleLogin'>
+          <view class='login'>登录</view>
+        </view>
+        <view class='msg-text' wx:else>
+          <view class='name'>{{userInfo.nickName }}</view>
+          <view class='id'>ID:{{userInfo.id }}</view>
+        </view>
+       
+      </view>
+      <view class='code' bindtap='code'>我的推广码</view>
+    </view>
+    <view class='header-bd'>
+      <view class='c-1'>
+        <view class='num'>{{dataList.score }}</view>
+        <view class='header-index'>我的积分</view>
+      </view>
+      <view class='c-1'>
+        <view class='num'>{{dataList.ppVoucher }}</view>
+        <view class='header-index'>拍拍卷(张)</view>
+      </view>
+      <view class='c-1'>
+        <view class='num'>{{dataList2 }}</view>
+        <view class='header-index'>权益值</view>
+      </view>
+      <view class='c-1'>
+        <view class='num'>{{directCount}}</view>
+        <view class='header-index'>我的徒弟</view>
+      </view>
+    </view>
+  </view>
+  <view class='wallet'>
+    <view class='h3'>我的钱包</view>
+    <view class='wallet-ul'>
+      <view class='c-1'>
+        <view class='num2'>{{dataList.enabledMoney }}</view>
+        <view class='header-index2'>账户余额(元)</view>
+      </view>
+      <view class='c-1'>
+        <view class='num2'>{{dataList.blockMoney}}</view>
+        <view class='header-index2'>冻结保证金(元)</view>
+      </view>
+      <view class='c-1'>
+        <view class='num2'>{{dataList.lePoint}}</view>
+        <view class='header-index2'>乐点值</view>
+      </view>
+      <view class='c-1' bindtap='chongzhi'>
+        <view class='chongzhijilu'>
+          <image src='../../asset/chongzhijilu.png'></image>
+        </view>
+        <view class='header-index2 sizeColor' >去充值</view>
+      </view>
+    </view>
+  </view>
+   <view class='order'>
+    <view class='h3'>我的订单</view>
+    <text class='more' bindtap='more'>查看全部订单>></text>
+    <view class='order-ul'>
+      <view class='c-1 mr pr' bindtap='hanleOrder1'>
+        <view class='fu'>
+          <image src='../../asset/fu.png'></image>
+        </view>
+        <view class='{{info.noPayCount == 0 ? "" : "orders"}}'>{{info.noPayCount || ""}}</view>
+        <view class='header-index3 sizeColor'>待付款</view>
+      </view>
+      <view class='c-1 mr pr'  bindtap='hanleOrder2'>
+        <view class='fu'>
+          <image src='../../asset/shou.png'></image>
+        </view>
+        <view class='{{info.pickCount == 0 ? " " : "orders"}}'>{{info.pickCount || " "}}</view>
+        <view class='header-index3 '>待收货</view>
+      </view>
+      <view class='c-1 mr pr'  bindtap='hanleOrder3'>
+        <view class='fu'>
+          <image src='../../asset/wan.png'></image>
+        </view>
+        <!-- <view class='{{info.noPayCount == 0 ? "" : "orders"}}'>{{info.noPayCount || " "}}</view> -->
+        <view class='header-index3 '>已完成</view>
+      </view>
+      <view class='c-1 pr'  bindtap='hanleOrder4'>
+        <view class='fu'>
+          <image src='../../asset/weiyue.png'></image>
+        </view>
+        <!-- <view class='{{info.noPromiseCount == 0 ? " " : "orders"}}'>{{info.noPromiseCount || " "}}</view> -->
+        <view class='header-index3 '>违约</view>
+      </view>
+    </view>
+  </view>
+  <view class='other'>
+    <view class='h3'>其他功能</view>
+    <view class='other-ul'>
+      
+      <view class='c-1 mr1' bindtap='hanle1'>
+        <view class='kefu'>
+          <image src='../../asset/tuo.png'></image>
+        </view>
+        <view class='header-index3'>我的托管</view>
+      </view>
+      <view class='c-1 mr1' bindtap='hanle2'>
+        <view class='kefu'>
+          <image src='../../asset/sele.png'></image>
+        </view>
+        <view class='header-index3 '>我的寄卖</view>
+      </view>
+      <view class='c-1 mr1' bindtap='hanle'>
+        <view class='kefu'>
+          <image src='../../asset/address.png'></image>
+        </view>
+        <view class='header-index3 sizeColor'>我的地址</view>
+      </view>
+      <view class='c-1 mr2' bindtap='hanle3'>
+        <view class='kefu'>
+          <image src='../../asset/kefu.png'></image>
+        </view>
+        <view class='header-index3 '>客服</view>
+      </view>
+    </view>
+  </view>
+   <i-toast id="toast" />
+</view>

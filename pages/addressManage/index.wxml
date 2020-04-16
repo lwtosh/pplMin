@@ -1,0 +1,26 @@
+<block wx:for='{{dataList}}' wx:key="item.id">
+  <view class="list">
+    <view class='desc'>
+      <view class='desc-name'>{{item.consignee }}
+        <text class='desc-tel'>{{item.phone }}</text> </view>
+      <view class='desc-adderss'>
+        <text class='details' wx-if="{{item.isDefault == 1}}">默认</text>{{item.province }}{{item.city}}{{item.county }}{{item.address}}</view>
+    </view>
+    <view class='is-details'>
+      <radio-group class="radio-group" bindchange="handleAnimalChange">
+        <radio color="#F51E73" size="12" data-id="{{item.id}}" value='{{item.id}}' checked="{{item.isDefault == 1 ? true : false}}">
+          <text class='set'>设置为默认地址</text>
+        </radio>
+      </radio-group>
+      <view class='eitd'>
+        <text class='del' bindtap="addEidt" data-id="{{item.id}}">编辑</text>
+        <text class='del' bindtap="del" data-isDefault="{{item.isDefault}}" data-id="{{item.id}}">删除</text>
+      </view>
+    </view>
+  </view>
+</block>
+<i-toast id="toast" />
+<i-modal title="温馨提示" visible="{{visible1}}" bind:ok="handleClose1" bind:cancel="handleClose1">
+    <view>确定要删除吗？</view>
+  </i-modal>
+<view class='btn' bindtap="address">新增收货地址</view>

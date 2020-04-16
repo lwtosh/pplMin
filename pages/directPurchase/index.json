@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "直购商城",
+  "usingComponents": {
+    "i-tabs": "../../dist/tabs/index",
+    "i-tab": "../../dist/tab/index"
+  }
+}

@@ -1,0 +1,68 @@
+<!--index.wxml-->
+<view class="borderTop1px"></view>
+<block wx:if="{{resultShow}}">
+  <view class="content_zero" animation="{{animationData}}" wx:if="{{orderList.length==0}}">
+    <image mode="aspectFit" src="../../../../image/search_zero.png"></image>
+    <view class="tip color_888888">没有该{{orderCon==0?'商品':'用户'}}的订单记录</view>
+  </view>
+
+
+  <scroll-view scroll-y scroll-top="{{scrollTop}}" style="height: {{windowHeight}}px;" bindscrolltolower="loadMore" bindscroll="scroll">
+
+    <block wx:for="{{orderList}}">
+
+      <view animation="{{animationData}}" class="order_msg bg_fff">
+
+        <view class="item_status display-flex-row">
+          <view class="">
+            <image src="../../image/oreder-desc.png"></image>
+          </view>
+          <view wx:if="{{item.state==1}}" class="status_content color_ff6700">待付款</view>
+          <view wx:elif="{{item.state==2}}" class="status_content color_ff6700">待发货</view>
+          <view wx:elif="{{item.state==3}}" class="status_content color_ff6700">待收货</view>
+          <view wx:elif="{{item.state==4}}" class="status_content color_ff6700">已完成</view>
+          <view wx:else="{{item.state==5}}" class="status_content color_ff6700">异常</view>
+        </view>
+
+        <view class="item_wrap display-flex-row" wx:for="{{item.goods}}">
+          <image src="{{item.good.good_display_img}}" mode="aspectFit" class="item_item_image"></image>
+          <view class="item_msg">
+
+            <view class="item_item_title">
+              <view class="text-hide">{{item.good.good_name}}</view>
+            </view>
+            <view class="item_item_bot">
+              <view class="color_888888 text-hide">
+                花型:
+                <block wx:for="{{item.flowers}}">
+                  <text> {{item.flower_name}}</text>
+                </block>
+              </view>
+              <view class="display-flex-row" style="justify-content: space-between;">
+                <view class="item_item_price">¥{{item.good.good_price}}</view>
+                <view>x{{item.number}}</view>
+              </view>
+
+            </view>
+
+          </view>
+        </view>
+
+        <view class="item_count display-flex-row">
+          <view class="count_content">合计:
+            <span class="count_price">¥{{item.totalprice}}</span>
+          </view>
+        </view>
+      </view>
+
+
+    </block>
+  </scroll-view>
+
+  <view class="loading_area display-flex-row" wx:if="{{showLoadding}}">
+    <icon type="waiting" size="20" color="#ff6700" />
+    <view>加载中...</view>
+  </view>
+
+
+</block>

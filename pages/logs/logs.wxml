@@ -1,0 +1,9 @@
+<!-- <view class='wrap'>
+<view class='box2'>
+    <image src='../../asset/hongbao.png'></image>
+    <view class='flex'>
+      <navigator open-type="exit" target="miniProgram" class='left2'>不差钱，离开</navigator>
+      <view class='right2' bindtap='btn3'>继续瓜分红包</view>
+    </view>
+  </view>
+</view> -->

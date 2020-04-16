@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "权益值商城",
+  "usingComponents": {
+    "i-tabs": "../../dist/tabs/index",
+    "i-tab": "../../dist/tab/index",
+    "i-load-more": "../../dist/load-more/index"
+  },
+    "enablePullDownRefresh": true
+}

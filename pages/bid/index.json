@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "出价",
+  "navigationBarBackgroundColor": "#F51E73",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "i-count-down": "../../dist/count-down/index",
+    "i-load-more": "../../dist/load-more/index"
+  }
+}

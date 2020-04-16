@@ -1,0 +1,62 @@
+{
+  "pages": [
+    "pages/list/index",
+    "pages/my/index",
+    "pages/details/index",
+    "pages/home/index",
+    "pages/index/index",
+    "pages/firendsHelp/index",
+    "pages/bid/index",
+    "pages/money/index",
+    "pages/logs/logs",
+    "pages/share/index",
+    "pages/guide/index",
+    "pages/address/index",
+    "pages/addressManage/index",
+    "pages/add/index",
+    "pages/consignment/index",
+    "pages/consignmentDetails/index",
+    "pages/lePoint/index",
+    "pages/directPurchase/index",
+    "pages/equityVal/index",
+    "pages/lePointDetails/index",
+    "pages/equityValDetails/index",
+    "pages/directPurchaseDetails/index",
+    "pages/conversion/index",
+    "pages/order/index",
+    "pages/jimai/index",
+    "pages/entrust/index",
+    "pages/sale/index",
+    "pages/saleEitd/index",
+    "pages/goods/index",
+    "pages/payment/index",
+    "pages/pay/index",
+    "pages/kefu/index",
+    "pages/pays/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "拍拍乐",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#F52A6A",
+    "list": [
+      {
+        "pagePath": "pages/list/index",
+        "text": "首页",
+        "iconPath": "asset/home.png",
+        "selectedIconPath": "asset/home-active.png"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "text": "我的",
+        "iconPath": "asset/my.png",
+        "selectedIconPath":"asset/my-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

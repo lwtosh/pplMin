@@ -1,0 +1,58 @@
+<view class="header">
+  <i-cell-group i-class="sele">
+    <i-cell title="请选择收获地址" wx:if="{{addresssInfo == null}}" is-link url="/pages/add/index">
+      <i-icon slot="icon" type="coordinates_fill" size="28" color="#F51E73" i-class="coordinates_fill" />
+    </i-cell>
+    <i-cell title="" is-link bindtap="hanleChange" wx:else>
+      <view class='box'>
+        <view class='hd'>收货人：{{item1 == undefined ? addresssInfo.consignee || addresssInfo.addressContact : item1.consignee}}
+          <text class='tel'>{{item1 == undefined ?addresssInfo.phone || addresssInfo.addressPhone : item1.phone}}</text> </view>
+        <view class='bd'>收货地址：{{item1 == undefined ?addresssInfo.province : item1.province}}{{item1 == undefined ?addresssInfo.city : item1.city}}{{item1 == undefined ?addresssInfo.county : item1.county}}{{item1 == undefined ?addresssInfo.address : item1.address}} </view>
+      </view>
+      <i-icon slot="icon" type="coordinates_fill" size="28" color="#F51E73" i-class="coordinates_fill" />
+    </i-cell>
+  </i-cell-group>
+  <view class='line'></view>
+  <view class='list' wx:if="{{dataInfo.goods}}" bindtap='hanle'>
+    <view class='left'>
+      <image src='{{dataInfo.goods.goodsCoverImg}}'></image>
+    </view>
+    <view class='left-bd'>
+      <view class='title'>{{dataInfo.goods.goodsName}}</view>
+      <view class='num' wx-if="{{dataInfo.orderType == 1}}">
+        <text class='mon1'>已消耗：</text>{{dataInfo.payLePoint}}
+        <text class='mon'>乐点</text>
+      </view>
+      <view class='num' wx-if="{{dataInfo.orderType == 2}}">
+        第{{dataInfo.treasurePeriodId}}期 <text class='mon'> 中奖奖品</text>
+      </view>
+      <view class='num' wx-if="{{dataInfo.orderType == 0}}">
+        <view class='tet'>起拍价：￥{{dataInfo.goods.marketPrice}}</view>
+        <view class='tet'>成交价：￥{{dataInfo.payPrice}}</view>
+      </view>
+      <view class='one'>x1</view>
+    </view>
+  </view>
+  <view class='list' wx:else bindtap='hanle'>
+    <view class='left'>
+      <image src='{{dataInfo.goodsVo.goodsCoverImg}}'></image>
+    </view>
+    <view class='left-bd'>
+      <view class='title'>{{dataInfo.goodsVo.goodsName}}</view>
+      <view class='num'>
+        <text class='mon'>￥</text>{{dataInfo.salePrice}}
+      </view>
+      <view class='one'>x1</view>
+    </view>
+  </view>
+  <i-cell-group wx-if="{{dataInfo.goods}}">
+    <i-cell title="共1件商品,已支付￥{{dataInfo.payPrice}}" i-class="cell3 cell" wx-if="{{dataInfo.payPrice !== 0 }}"></i-cell>
+    <i-cell title="共1件商品,已消耗{{dataInfo.payLePoint}}乐点" i-class="cell3 cell" wx-if="{{dataInfo.payLePoint !== 0 }}">
+    </i-cell>
+  </i-cell-group>
+  <view class='footer' bindtap='pay'>确认提货</view>
+  <i-modal title="温馨提示" visible="{{visible1}}" bind:ok="handleClose1" bind:cancel="handleClose1">
+    <view>确定要提货吗？</view>
+  </i-modal>
+  <i-toast id="toast" />
+</view>

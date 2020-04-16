@@ -1,0 +1,84 @@
+{
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": true,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"autoAudits": false
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.7.2",
+	"appid": "wx60438b727ef6072c",
+	"projectname": "details",
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 1,
+			"list": [
+				{
+					"id": 0,
+					"name": "ggg",
+					"pathName": "pages/consignmentDetails/index",
+					"query": "id=105",
+					"scene": 1036,
+					"referrerInfo": {}
+				},
+				{
+					"id": 1,
+					"name": "444",
+					"pathName": "pages/consignmentDetails/index",
+					"query": "productId=147&&inviteCode=U8KY60",
+					"scene": 1036,
+					"referrerInfo": {}
+				},
+				{
+					"id": 2,
+					"name": "ggg",
+					"pathName": "pages/money/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 3,
+					"name": "my",
+					"pathName": "pages/order/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 4,
+					"name": "ss",
+					"pathName": "pages/jimai/index",
+					"query": "",
+					"scene": null
+				}
+			]
+		}
+	}
+}

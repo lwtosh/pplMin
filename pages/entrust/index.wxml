@@ -1,0 +1,56 @@
+<view class='order'>
+  <view class='null' wx-if="{{dataList == ''}}">
+    <image src='../../asset/null.png'></image>
+    <view class='null-desc'>还没有订单哦~</view>
+  </view>
+  <scroll-view scroll-y="true" wx-else class="scoll-h">
+  <view class='order-ul' wx:for='{{dataList}}' wx:key="item.id">
+    <view class='order-li'>
+      <view class='orderNum'>
+        <view class='orderNum-left'>竞拍订单号 {{item.orderNo}}</view>
+        <view class='orderNum-right' wx-if="{{item.turnStatus  == 3}}">拍卖中</view>
+        <view class='orderNum-right' wx-if="{{item.turnStatus == 2}}">待托管 </view>
+        <view class='orderNum-right' wx-if="{{item.turnStatus == 1}}">托管中</view>
+        <view class='orderNum-right' wx-if="{{item.turnStatus == 4}}">已售出</view>
+        <view class='orderNum-right' wx-if="{{item.turnStatus == 5}}">托管失败</view>
+      </view>
+      <view class='seletion'>
+        <view class='seletion-left'>
+          <image class='seletion-img' src='{{item.goods.goodsCoverImg}}'></image>
+        </view>
+        <view class='left-bd'>
+          <view class='title'>{{item.goods.goodsName}}</view>
+          <view class='num'  wx-if="{{item.orderType == 1}}">
+            <text class='tet'> 已消耗：</text>{{item.orderLePoint}}
+            <text class='mon'> 乐点</text>
+          </view>
+          <view class='num'  wx-if="{{item.orderType == 0}}">
+            <view class='tet'> 起拍价：￥{{item.goods.marketPrice}}</view>
+            <view class='tet'> 成交价：￥{{item.payPrice}}</view>
+          </view>
+        </view>
+      </view>
+      <view class='seletion1'>
+        <view class='box'>
+          <view class='time1' wx:if="{{item.turnStatus == 4}}">
+            <view class='chu'>售出竞拍订单号：{{item.orderNo}}</view>
+            <view class='chu'>售出时间：{{item.payTime}}</view>
+          </view>
+          <view class='time' wx:else>托管时间 ：{{item.payTime}}</view>
+          <view class='check'>
+            <view class='confirm' data-item="{{item}}" bindtap='hanleopen' wx-if="{{item.turnStatus == 1}}">提货</view>
+            <view class='confirm' data-id="{{item.id}}" bindtap='hanleopen2' wx-if="{{item.turnStatus == 1}}">加速</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  </scroll-view>
+  <i-toast id="toast" />
+  <i-modal title="温馨提示" visible="{{visible1}}" bind:ok="handleClose1" bind:cancel="handleClose3">
+    <view>确定要下架吗？</view>
+  </i-modal>
+  <i-modal title="加速排名" visible="{{visible2}}" bind:ok="handleClose2" bind:cancel="handleClose3">
+    <view>加速提升你的转拍速度（排在第一位），本次加速将消耗你2000积分</view>
+  </i-modal>
+</view>

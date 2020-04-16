@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "管理收货地址",
+  "usingComponents": {
+    "i-radio": "../../dist/radio/index",
+    "i-modal": "../../dist/modal/index",
+    "i-toast": "../../dist/toast/index"
+  },
+  "enablePullDownRefresh": true
+}

@@ -1,0 +1,136 @@
+<page class="cont">
+  <!-- 轮播详情 -->
+  <view class='swiper'>
+    <swiper indicator-dots="{{indicatorDots}}" circular="{{circular}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <block wx:for="{{imgUrl}}" wx:for-item="items">
+        <swiper-item>
+          <image src="{{items}}" class="slide-image" bindtap="changeDetail" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class='cont1 clearfix'>
+    <!-- 标题 -->
+    <text class='title clearfix'>{{dataList.goodsName}}</text>
+    <!-- 价格 -->
+    <view class='hd clearfix'>
+      <view class='left clearfix'>
+        <text class='mon'>￥</text>{{dataList.startPrice}}
+        <text class='new'>起拍价</text>
+      </view>
+      <view class='foot'>
+        <view class='left-bd'>市场价:
+          <text class='th'>￥{{dataList.goodsVo.marketPrice }}</text>
+        </view>
+        <view class='book'>
+          <image src='../../asset/book.png'></image> {{dataList.goodsVo.onlookerNum > 9999 ? book : dataList.goodsVo.onlookerNum }}人围观
+        </view>
+        <view class='right'>
+          <image src='../../asset/pai.png'></image> 拍出{{dataList.payNum > 9999 ? pay : dataList.payNum}}件
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 四价 -->
+  <view class='cc'></view>
+  <view class='c4 clearfix'>
+    <i-row i-class="demo-row light">
+      <i-col span="6" i-class="demo-col">
+        <text class='mon1'>￥{{dataList.historyHighestPrice===null ? 0 : dataList.historyHighestPrice  }}</text>
+        <text class='text'>历史最高价</text>
+      </i-col>
+      <i-col span="6" i-class="demo-col light">
+        <text class='mon1'>￥{{dataList.highestPrice== null ? 0 : dataList.highestPrice }}</text>
+        <text class='text'>封顶价</text>
+      </i-col>
+      <i-col span="6" i-class="demo-col">
+        <text class='mon1'>￥{{dataList.bidPlusPrice===null ?  0 : dataList.bidPlusPrice  }}</text>
+        <text class='text'>加价幅度</text>
+      </i-col>
+      <i-col span="6" i-class="demo-col light">
+        <text class='mon1'>{{dataList.depositRate===null ? 0 : dataList.depositRate }}%</text>
+        <text class='text'>保证金比例</text>
+      </i-col>
+    </i-row>
+    <!-- <view class='wen'></view> -->
+  </view>
+  <view class='cc'></view>
+  <!-- 场次 -->
+  <view class='canci' wx-if='{{dataList2.content !== null}}'>
+    <view class='h-txt'>本产品可直接参与竞拍场次</view>
+    <view class='c3 clearfix' wx:for='{{dataList2.content}}'>
+      <i-row i-class="demo-row" class='demoHd clearfix'>
+        <i-col span="8" i-class="demo-col">
+          <text class='c3-1'>{{item.id}}场</text>
+        </i-col>
+        <i-col span="8" i-class="demo-col center">
+          <view wx-if='{{item.countDown > 0}}' class='c3-22'>
+            <i-count-down class="times" target="{{item.startTime}}" countdown-class="big">
+            </i-count-down>开拍</view>
+          <text class='c3-2' wx-if='{{item.countDown === -1}}'>已结束</text>
+          <text wx-if='{{item.countDown == 0}}' class='c3-2'>正在热拍</text>
+        </i-col>
+        <i-col span="8" i-class="demo-col rig">
+          <text class='c3-3' data-id="{{item.id}}" bindtap='hanleJoin'>立即参与</text>
+        </i-col>
+      </i-row>
+    </view>
+  </view>
+  <view class='cc' wx-if='{{dataList2.content !== null}}'></view>
+  <!-- 场次 -->
+  <!-- 竞拍流程 -->
+  <view class='liucheng'>
+    <view class='tl'>竞拍流程</view>
+    <view class='c5'>
+      <view class='l1'>
+        <image src='../../asset/bao.png'></image>
+        <view class='desc'>交保证金</view>
+      </view>
+      <view class='l1 mp'>
+        <image class='xing' src='../../asset/xing.png'></image>
+      </view>
+      <view class='l1'>
+        <image src='../../asset/bid.png'></image>
+        <view class='desc'>出价竞拍</view>
+      </view>
+      <view class='l1 mp'>
+        <image class='xing' src='../../asset/xing.png'></image>
+      </view>
+      <view class='l1'>
+        <image src='../../asset/sucess.png'></image>
+        <view class='desc'>竞拍成功</view>
+      </view>
+      <view class='l1 mp'>
+        <image class='xing' src='../../asset/xing.png'></image>
+      </view>
+      <view class='l1 '>
+        <image src='../../asset/zhifu.png'></image>
+        <view class='desc'>支付货款</view>
+      </view>
+      <view class='l1 mp'>
+        <image class='xing' src='../../asset/xing.png'></image>
+      </view>
+      <view class='l1'>
+        <image src='../../asset/jiao.png'></image>
+        <view class='desc'>交易成功</view>
+      </view>
+    </view>
+  </view>
+  <i-panel class="cell-panel-demo">
+    <i-cell title="参拍指南" is-link url="/pages/guide/index"></i-cell>
+  </i-panel>
+  <!-- 列表 -->
+  <view class='list'>
+    <view class='cont2'>
+      <view class='content'>商品详情</view>
+      <view class='footer' wx-if='{{dataList.goodsVo.goodsDetail !== null}}'>
+        <view class='f1'>
+          <text>{{dataList.goodsVo.goodsDetail}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:for="{{imgUrl2}}" class='footImg' wx:for-item="items">
+      <image src="{{items}}" mode='widthFix' style="width:100vw"></image>
+    </view>
+  </view>
+</page>

@@ -1,0 +1,15 @@
+.big{
+  display:inline-block !important;
+}
+.time{
+  padding:0px 3px 0px 3px;
+  background: #000;
+  border-radius: 5px;
+  /* line-height: 60px; */
+  font-size: 14px;
+  text-align: center;
+  margin-right: 2px; 
+}
+time1{
+  margin-right: 2px; 
+}

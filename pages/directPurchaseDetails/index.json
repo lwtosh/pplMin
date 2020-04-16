@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "寄卖详情",
+  "usingComponents": {
+    "i-divider": "../../dist/divider/index"
+  }
+}

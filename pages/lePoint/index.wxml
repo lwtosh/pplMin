@@ -1,0 +1,45 @@
+<view class='cont'>
+  <!-- 轮播详情 -->
+  <view class='swiper'>
+    <view class='ppl2' wx:if="{{imgUrl == ''}}">
+      <image src='../../asset/ppl2.png'></image>
+    </view>
+    <swiper wx:else indicator-dots="{{indicatorDots}}" circular="{{circular}}" indicator-active-color="{{indicatorActiveColor}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <block wx:for="{{imgUrl}}" wx:for-item="items">
+        <swiper-item>
+          <image src="{{items.picUrl}}" class="slide-image" bindtap="changeDetail" />
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class='main'>
+    <view class='tab-h' color="#F52A6A" >
+      <view class="tab-item {{current=='tab1'?'active':''}}" data-current="tab1" bindtap="handleChange">综合</view>
+      <view class="tab-item {{current=='tab2'?'active':''}}" data-current="tab2" bindtap="handleChange">销量</view>
+      <view class="tab-item {{current=='tab3'?'active':''}}" data-current="tab3" bindtap="handleChange">上新</view>
+      <view class="tab-item r {{current=='tab4'?'active':''}}" data-current="tab4" data-index="{{daindex1}}" bindtap="hanlechage">乐点数
+        <image class='sort-btn' src="{{imageurl1}}"></image>
+      </view>
+    </view>
+    <view class='ul'>
+      <block wx:for='{{dataList}}' wx:key="id">
+        <view class='list' bindtap='hanle' data-id="{{item.id}}">
+          <view class='left'>
+            <image src='{{item.goodsVo.goodsCoverImg}}'></image>
+          </view>
+          <view class='left-bd'>
+            <view class='title h'>{{item.goodsVo.goodsName}}</view>
+            <view class='num'>
+              {{item.lePoint}}
+              <text class='mon'>乐点</text>
+            </view>
+            <view class='shi'>市场价:
+              <text class='th'>￥{{item.goodsVo.marketPrice }}</text>
+            </view>
+            <view class='conversion' catchtap='hanleConversion' data-id="{{item.id}}">兑换</view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

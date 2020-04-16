@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "我的寄卖商品",
+  "usingComponents": {
+    "i-modal": "../../dist/modal/index",
+    "i-toast": "../../dist/toast/index"
+  },
+    "enablePullDownRefresh": true
+}
